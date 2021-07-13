@@ -23,6 +23,7 @@ print(f'ノートブックの数: {len(notebook_list)}')
 for notebook in notebook_list:
 
   print(f'ノートブック名: {notebook.name}')
+  print(f'ノートブックGuid: {notebook.guid}')
 
   # 取得するノートの条件を指定
   filter = NoteFilter()
