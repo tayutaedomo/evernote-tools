@@ -1,0 +1,2 @@
+evernote3==1.25.14
+oauth2
