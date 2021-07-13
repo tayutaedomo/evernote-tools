@@ -6,6 +6,7 @@ from datetime import datetime, timezone, timedelta
 # Evernote SDK for Python 3 を使う
 from evernote.api.client import EvernoteClient
 from evernote.edam.notestore.ttypes import NoteFilter, NotesMetadataResultSpec
+from evernote.edam.type.ttypes import NoteSortOrder
 
 # evernote.api.client.EvernoteClient を初期化
 token = os.environ['EVERNOTE_DEV_TOKEN']  # アクセストークンを指定
@@ -28,12 +29,16 @@ for notebook in notebook_list:
   # 取得するノートの条件を指定
   filter = NoteFilter()
   filter.notebookGuid = notebook.guid  # ノートブックの GUID を指定
+  filter.ascending = False
+  # filter.order = NoteSortOrder.UPDATED
+  filter.order = NoteSortOrder.CREATED
 
   # NoteMetadata に含めるフィールドを設定
   spec = NotesMetadataResultSpec()
   spec.includeTitle = True
   spec.includeCreated = True
   spec.includeAttributes = True
+  spec.includeTagGuids = True
 
   # ノートのメタデータのリスト evernote.edam.notestore.ttypes.NotesMetadataList を取得
   notes_metadata_list = store.findNotesMetadata(
@@ -46,8 +51,8 @@ for notebook in notebook_list:
 
   # evernote.edam.notestore.ttypes.NoteMetadata を取り出す
   for note_meta_data in notes_metadata_list.notes:
-
     print(f'  ノートのタイトル: {note_meta_data.title}')
+    print(f'  タグ: {note_meta_data.tagGuids}')
 
     # evernote.edam.type.ttypes.Note を取得
     note = store.getNote(
@@ -56,6 +61,7 @@ for notebook in notebook_list:
         True,  # withResourcesData
         True,  # withResourcesRecognition
         True)  # withResourcesAlternateData
+
     print(f'    タイトル: {note.title}')
     print(f'    作成日時: {datetime.fromtimestamp(note.created / 1000, timezone(timedelta(hours=9)))}')
     print(f'    内容(XHTML): {note.content[0:64]}')  # 長いので先頭64文字だけ取り出す
