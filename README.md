@@ -22,3 +22,10 @@ $ python scripts/find_note.py --token "<Your developer token>" --guid="Target no
 
 $ python scripts/find_note.py --token "<Your developer token>" --guid="Target notebook GUID"
 ```
+
+My tool scripts are following:
+```
+$ python scripts/make_today_diary.py --token "<My developer token>" --guid="Target notebook GUID" --tag-guid="<Tag GUID of my target note>" --dry-run
+
+$ python scripts/make_today_diary.py --token "<My developer token>" --guid="Target notebook GUID" --tag-guid="<Tag GUID of my target note>"
+```
